@@ -79,7 +79,11 @@ function ChatAssistant({ userProfile, language, apiUrl, token }) {
       const res = await axios.post(`${apiUrl}/chat`, {
         message: userMsg,
         language,
-        userProfile
+        userProfile: {
+          age: userProfile.age,
+          state: userProfile.state,
+          firstTimeVoter: userProfile.firstTimeVoter
+        }
       });
       
       const newMessages = [...currentMessages, { role: 'user', content: userMsg }, { role: 'assistant', content: res.data.response }];
