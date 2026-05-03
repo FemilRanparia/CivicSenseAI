@@ -1,4 +1,32 @@
-# CivicSense AI - Project Documentation
+# CivicSense AI - Empowering Voters Through AI
+
+CivicSense AI is a full-stack, AI-powered election simulation and guidance platform designed to demystify the Indian voting process for first-time and experienced voters alike.
+
+## 1. Chosen Vertical: Civic Tech & EdTech
+This project sits at the intersection of **Civic Technology** (building digital infrastructure to enhance citizen engagement with government processes) and **Educational Technology** (teaching complex, bureaucratic systems in an accessible, gamified way). 
+
+In India, millions of first-time voters become eligible every year, yet the sheer complexity of registration, EVM operation, and booth protocols leads to voter apathy or confusion. CivicSense AI solves this by transforming static government guidelines into a highly personalized, interactive, and simulated educational journey.
+
+## 2. Approach and Logic
+Instead of building a generic "chat wrapper" over an AI model, the approach focused on creating a **context-aware application state**:
+* **Zero-Friction Context:** We eliminate the need for complex prompting. Upon signup, the system captures demographic data (Age, State, First-Time Voter status, Language preference). 
+* **Stateful Syncing:** This demographic data is permanently synced to the MongoDB backend.
+* **Prompt Injection (Backend):** When a user asks a question, the backend automatically injects their demographic profile into a heavily engineered system prompt before sending it to the Gemini API. 
+* **Gamification:** Complex bureaucratic steps are broken down into a "Journey Timeline"—a visual, interactive checklist where users can track their real-world progress.
+
+## 3. How the Solution Works
+1. **Authentication:** Users sign up with their demographics. Passwords are cryptographically hashed via `bcryptjs`.
+2. **Dashboard Generation:** Upon login, the React frontend requests a customized timeline from the Node.js/Express backend. 
+3. **AI Generation:** The backend uses the Gemini API to generate a JSON-structured roadmap tailored exactly to the user's age and state (e.g., instructing an 18-year-old on Form 6 registration vs. a 30-year-old on roll verification).
+4. **Interactive Chat:** The user can interact with the AI Guide. The UI features a glassmorphism design, smart scroll detection, and auto-generated follow-up suggestions to drive engagement.
+5. **Security:** The backend is hardened with `helmet` (HTTP header security), `express-rate-limit` (protecting the Gemini API from abuse), and DOM sanitization on the frontend to prevent XSS attacks from AI-generated markdown.
+
+## 4. Assumptions Made
+* **API Availability:** The system assumes the Google Gemini API (`generativelanguage.googleapis.com`) is reachable. A robust try/catch fallback loop iterates through 6 different Gemini models to guarantee a response even if one model is overloaded.
+* **Internet Connectivity:** The application requires an active internet connection to communicate between the Netlify frontend, Render backend, and MongoDB database.
+* **Target Audience:** The system is optimized assuming the primary users are digital-native youth (18-25). Hence, the inclusion of "Hinglish" language support, dark mode aesthetics, and micro-animations to maximize engagement with younger demographics.
+
+---
 
 ## Project Structure
 ```text
